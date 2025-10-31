@@ -11,7 +11,10 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
     
+    private val authInterceptor = AuthInterceptor()
+    
     private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
         .connectTimeout(ApiConfig.CONNECT_TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(ApiConfig.READ_TIMEOUT, TimeUnit.SECONDS)
@@ -25,4 +28,5 @@ object RetrofitClient {
         .build()
     
     val authApi: AuthApi = retrofit.create(AuthApi::class.java)
+    val syncApi: SyncApi = retrofit.create(SyncApi::class.java)
 }

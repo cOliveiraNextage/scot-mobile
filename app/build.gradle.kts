@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -49,23 +50,30 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    
+    implementation("androidx.compose.material:material-icons-extended")
+
     // Networking
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    
+
     // Coroutines
     implementation(libs.coroutines.android)
     implementation(libs.coroutines.core)
-    
+
     // ViewModel
     implementation(libs.viewmodel.compose)
-    
+
     // Navigation
     implementation(libs.navigation.compose)
-    
+
+    // Room Database
+    implementation("androidx.room:room-runtime:2.7.0")
+    implementation("androidx.room:room-ktx:2.7.0")
+    implementation(libs.androidx.room.external.antlr)
+    kapt("androidx.room:room-compiler:2.7.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

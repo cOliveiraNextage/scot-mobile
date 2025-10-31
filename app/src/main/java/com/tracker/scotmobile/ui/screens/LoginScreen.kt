@@ -34,7 +34,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tracker.scotmobile.ui.viewmodel.LoginViewModel
 import androidx.compose.ui.tooling.preview.Preview
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.ui.res.painterResource
+import com.tracker.scotmobile.R
 import com.tracker.scotmobile.ui.theme.ScotMobileTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,8 +63,8 @@ fun LoginScreen(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF667eea),
-                        Color(0xFF764ba2)
+                        Color(0xFFEC7676),
+                        Color(0xFFAD9D9D)
                     )
                 )
             )
@@ -73,28 +76,12 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Logo/Title
-            Text(
-                text = "ScotMobile",
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    fontSize = 32.sp
-                ),
-                textAlign = TextAlign.Center
+
+            Image(
+                painter = painterResource(id = R.drawable.logo_tracker),
+                contentDescription = "Logo",
+                modifier = Modifier.size(220.dp)
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Faça login para continuar",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.White.copy(alpha = 0.8f)
-                ),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(48.dp))
 
             // Login Card
             Card(
@@ -280,61 +267,3 @@ fun LoginScreenDarkPreview() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, name = "Simple Login Preview")
-@Composable
-fun SimpleLoginPreview() {
-    ScotMobileTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF667eea),
-                            Color(0xFF764ba2)
-                        )
-                    )
-                )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "ScotMobile",
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        fontSize = 32.sp
-                    ),
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(48.dp))
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier.padding(24.dp)
-                    ) {
-                        Text("Preview da Tela de Login")
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(
-                            onClick = {},
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Botão de Exemplo")
-                        }
-                    }
-                }
-            }
-        }
-    }
-}

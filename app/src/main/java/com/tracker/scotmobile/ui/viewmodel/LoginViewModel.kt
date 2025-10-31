@@ -1,6 +1,7 @@
 package com.tracker.scotmobile.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.tracker.scotmobile.data.model.User
 import com.tracker.scotmobile.data.repository.AuthRepository
@@ -20,8 +21,8 @@ data class LoginUiState(
     val user: User? = null
 )
 
-class LoginViewModel : ViewModel() {
-    private val repository = AuthRepository()
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
+    val repository = AuthRepository(application)
     
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -95,5 +96,11 @@ class LoginViewModel : ViewModel() {
     
     fun resetState() {
         _uiState.value = LoginUiState()
+    }
+    
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()
+        }
     }
 }

@@ -1,0 +1,40 @@
+package com.tracker.scotmobile.data.local.entity
+
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import androidx.room.Index
+
+@Entity(
+    tableName = "vehicles",
+    foreignKeys = [
+        ForeignKey(
+            entity = OwnerEntity::class,
+            parentColumns = ["fnServiceOrderId", "fcOwnerId"],
+            childColumns = ["fnServiceOrderId", "fcOwnerId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = OrderServiceEntity::class,
+            parentColumns = ["fnServiceOrderId"],
+            childColumns = ["fnServiceOrderId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("fcOwnerId"), Index("fnServiceOrderId")]
+)
+data class VehicleEntity(
+    @PrimaryKey
+    val fcVehicleId: String,
+    val fcOwnerId: String,
+    val fnServiceOrderId: Long,
+    val fnVehicleColorId: Long,
+    val fnVehicleTypeId: Long,
+    val fcBrand: String,
+    val fcModel: String,
+    val fnYear: Int,
+    val fcPlate: String,
+    val fcVin: String,
+    val fcFipe: String? = null
+)
+
