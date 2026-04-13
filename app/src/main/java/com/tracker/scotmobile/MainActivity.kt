@@ -1,5 +1,6 @@
 package com.tracker.scotmobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,9 @@ import com.tracker.scotmobile.ui.screens.HomeScreen
 import com.tracker.scotmobile.ui.screens.LoginScreen
 import com.tracker.scotmobile.ui.screens.OrderServiceListScreen
 import com.tracker.scotmobile.ui.screens.ServicesScreen
+import com.tracker.scotmobile.ui.screens.RfTestScreen
+import com.tracker.scotmobile.ui.screens.DeviceListScreen
+import com.tracker.scotmobile.ui.viewmodel.BluetoothViewModel
 import com.tracker.scotmobile.ui.theme.ScotMobileTheme
 import com.tracker.scotmobile.ui.viewmodel.LoginViewModel
 import com.tracker.scotmobile.data.model.User
@@ -34,10 +38,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("MissingPermission")
 @Composable
 fun ScotMobileApp() {
     val navController = rememberNavController()
     val loginViewModel: LoginViewModel = viewModel()
+    val bluetoothViewModel: BluetoothViewModel = viewModel()
     var currentUser by remember { mutableStateOf<User?>(null) }
     
     // Observar mudanças no usuário do ViewModel
@@ -110,6 +116,9 @@ fun ScotMobileApp() {
                 onNavigateToServices = {
                     navController.navigate("services")
                 },
+                onNavigateToRfTest = {
+                    navController.navigate("rf_test")
+                },
                 user = currentUser
             )
         }
@@ -128,6 +137,29 @@ fun ScotMobileApp() {
                     navController.popBackStack()
                 },
                 userToken = currentUser?.token
+            )
+        }
+
+        composable("rf_test") {
+            RfTestScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToDeviceList = { navController.navigate("device_list") },
+                viewModel = bluetoothViewModel
+            )
+        }
+
+        composable("device_list") {
+            val uiState by bluetoothViewModel.uiState.collectAsState()
+            LaunchedEffect(Unit) { bluetoothViewModel.loadPairedDevices() }
+            DeviceListScreen(
+                uiState = uiState,
+                onDeviceSelected = { address ->
+                    bluetoothViewModel.connectToDevice(address)
+                    navController.popBackStack()
+                },
+                onStartScan = { bluetoothViewModel.startScan() },
+                onStopScan = { bluetoothViewModel.stopScan() },
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

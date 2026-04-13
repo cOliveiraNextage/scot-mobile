@@ -38,6 +38,7 @@ fun HomeScreen(
     onLogout: () -> Unit,
     onNavigateToTracking: () -> Unit,
     onNavigateToServices: () -> Unit,
+    onNavigateToRfTest: () -> Unit = {},
     user: com.tracker.scotmobile.data.model.User? = null
 ) {
     val context = LocalContext.current
@@ -168,7 +169,8 @@ fun HomeScreen(
             // Menu principal com opções
             MenuOptions(
                 onNavigateToTracking = onNavigateToTracking,
-                onNavigateToServices = onNavigateToServices
+                onNavigateToServices = onNavigateToServices,
+                onNavigateToRfTest = onNavigateToRfTest
             )
         }
     }
@@ -226,7 +228,8 @@ private fun UserHeader(user: com.tracker.scotmobile.data.model.User?) {
 @Composable
 private fun MenuOptions(
     onNavigateToTracking: () -> Unit,
-    onNavigateToServices: () -> Unit
+    onNavigateToServices: () -> Unit,
+    onNavigateToRfTest: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -323,7 +326,7 @@ private fun MenuOptions(
                 title = "Teste de RF Bancada",
                 description = "Realiza o teste de RF",
                 modifier = Modifier.weight(1f),
-                onClick = { /* TODO: Implementar navegação */ }
+                onClick = onNavigateToRfTest
             )
         }
 
